@@ -18,7 +18,7 @@ exports.getJiraWithEmptyStoryPoint = async (req, res) => {
     const filteredTickets = issues.filter(item => !item.fields.customfield_10014);
     const totalIssues = filteredTickets.length;
 
-    let message = `There are ${totalIssues} JIRA in current sprint that doesn't have story point! \n\n`;
+    let message = `There are ${totalIssues} JIRA tickets in current sprint that don't have story point! \n\n`;
     filteredTickets.forEach(item => {
         message += `- https://tokopedia.atlassian.net/browse/${item.key} \n`;
     });
