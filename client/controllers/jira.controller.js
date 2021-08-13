@@ -1,9 +1,21 @@
 const axios = require('axios');
 const { sendMessage } = require('../controllers/slack.controller');
 
+const httpClient = axios.create({
+    baseURL: 'https://tokopedia.atlassian.net/rest/api/3/',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    auth: {
+        username: process.env.JIRA_USERNAME,
+        password: process.env.JIRA_TOKEN
+    }
+});
+
 exports.getJiraWithEmptyStoryPoint = async (req, res) => {
-    const endpoint = 'https://tokopedia.atlassian.net/rest/api/3/search?jql=project = WP AND component in (Communication, Topads) AND Sprint in openSPrints() ORDER BY created DESC&fields=created,assignee,status,summary,fixVersions,customfield_10010,components.name,issuetype,customfield_10014';
-    const result = await axios.get(endpoint, {
+    const endpoint = 'search?jql=project = WP AND component in (Communication, Topads) AND Sprint in openSPrints() ORDER BY created DESC&fields=created,assignee,status,summary,fixVersions,customfield_10010,components.name,issuetype,customfield_10014';
+    const result = await httpClient.get(endpoint, {
         headers: {
             'Accept': 'application/json'
         },
